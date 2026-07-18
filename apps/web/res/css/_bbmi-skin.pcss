@@ -356,3 +356,64 @@
         border-radius: 12px;
     }
 }
+
+@media (max-width: 767px) {
+    html,
+    body,
+    #matrixchat {
+        height: 100dvh;
+        min-height: 100dvh;
+        overflow: hidden;
+    }
+
+    .mx_MatrixChat_wrapper,
+    .mx_MatrixChat {
+        height: 100dvh;
+        min-height: 0;
+    }
+
+    .mx_MatrixChat .mx_SpacePanel,
+    .mx_MatrixChat .mx_Separator {
+        display: none;
+    }
+
+    .mx_BBMIChat_listPane,
+    .mx_BBMIChat_detailPaneWrapper,
+    .mx_BBMIChat_detailPane {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        height: 100%;
+    }
+
+    .mx_MatrixChat[data-mobile-pane="list"] .mx_BBMIChat_detailPaneWrapper,
+    .mx_MatrixChat[data-mobile-pane="list"] > .mx_BBMIChat_detailPane,
+    .mx_MatrixChat[data-mobile-pane="detail"] .mx_BBMIChat_listPane {
+        display: none;
+    }
+
+    .mx_MatrixChat[data-mobile-pane="list"] .mx_BBMIChat_listPane,
+    .mx_MatrixChat[data-mobile-pane="detail"] .mx_BBMIChat_detailPaneWrapper,
+    .mx_MatrixChat[data-mobile-pane="detail"] > .mx_BBMIChat_detailPane {
+        display: flex;
+        flex: 1 1 100%;
+    }
+
+    .mx_LeftPanel_outerWrapper {
+        width: 100%;
+        max-width: none;
+    }
+
+    .mx_LeftPanel,
+    .mx_LeftPanel_roomListContainer {
+        width: 100%;
+        height: 100%;
+    }
+
+    .mx_RoomView_wrapper,
+    .mx_RoomView,
+    .mx_RoomView_body {
+        min-width: 0;
+        height: 100%;
+    }
+}

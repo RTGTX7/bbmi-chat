@@ -669,6 +669,10 @@ class LoggedInView extends React.Component<IProps, IState> {
             "mx_MatrixChat": true,
             "mx_MatrixChat--with-avatar": this.state.backgroundImage,
         });
+        const mobilePane =
+            this.props.page_type === PageTypes.RoomView || this.props.page_type === PageTypes.UserView
+                ? "detail"
+                : "list";
 
         const leftPanelWrapperClasses = classNames("mx_LeftPanel_wrapper");
 
@@ -689,7 +693,7 @@ class LoggedInView extends React.Component<IProps, IState> {
             </div>
         );
 
-        const roomView = <div className="mx_RoomView_wrapper">{pageElement}</div>;
+        const roomView = <div className="mx_RoomView_wrapper mx_BBMIChat_detailPane">{pageElement}</div>;
 
         let content: React.ReactNode;
         const resizerViewModel = !moduleRenderer ? this.getResizerViewModel() : undefined;
@@ -701,7 +705,7 @@ class LoggedInView extends React.Component<IProps, IState> {
                     <SpacePanel />
                     <LeftResizablePanelView
                         vm={resizerViewModel}
-                        className="mx_LeftPanel_panel"
+                        className="mx_LeftPanel_panel mx_BBMIChat_listPane"
                         minSize="200px"
                         maxSize="370px"
                         defaultSize="370px"
@@ -709,7 +713,7 @@ class LoggedInView extends React.Component<IProps, IState> {
                         {leftPanel}
                     </LeftResizablePanelView>
                     <SeparatorView className="mx_Separator" vm={resizerViewModel} />
-                    <Panel className="mx_LeftPanel_panel">{roomView}</Panel>
+                    <Panel className="mx_LeftPanel_panel mx_BBMIChat_detailPaneWrapper">{roomView}</Panel>
                 </GroupView>
             );
         } else {
@@ -719,7 +723,7 @@ class LoggedInView extends React.Component<IProps, IState> {
             content = (
                 <>
                     <SpacePanel />
-                    {leftPanel}
+                    <div className="mx_BBMIChat_listPane">{leftPanel}</div>
                     {roomView}
                 </>
             );
@@ -734,7 +738,9 @@ class LoggedInView extends React.Component<IProps, IState> {
                     aria-hidden={this.props.hideToSRUsers}
                 >
                     <ToastContainer />
-                    <div className={bodyClasses}>{content}</div>
+                    <div className={bodyClasses} data-mobile-pane={mobilePane}>
+                        {content}
+                    </div>
                 </div>
                 <PipContainer />
                 <NonUrgentToastContainer />

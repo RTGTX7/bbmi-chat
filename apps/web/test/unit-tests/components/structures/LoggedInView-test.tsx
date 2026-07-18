@@ -47,6 +47,7 @@ import { SETTINGS } from "../../../../src/settings/Settings";
 import ToastStore from "../../../../src/stores/ToastStore";
 import { ModuleApi } from "../../../../src/modules/Api";
 import { fireEvent } from "@testing-library/dom";
+import PageTypes from "../../../../src/PageTypes";
 
 describe("<LoggedInView />", () => {
     const userId = "@alice:domain.org";
@@ -98,6 +99,22 @@ describe("<LoggedInView />", () => {
         // @ts-expect-error
         mockClient.pushProcessor = new PushProcessor(mockClient);
         mockSdkContext._client = mockClient;
+    });
+
+    describe("responsive shell", () => {
+        it("marks room routes as the mobile detail pane", () => {
+            const { container } = getComponent({ page_type: PageTypes.RoomView, currentRoomId: "!room:server" });
+
+            expect(container.querySelector(".mx_MatrixChat")).toHaveAttribute("data-mobile-pane", "detail");
+            expect(container.querySelector(".mx_BBMIChat_listPane")).toBeInTheDocument();
+            expect(container.querySelector(".mx_BBMIChat_detailPaneWrapper")).toBeInTheDocument();
+        });
+
+        it("marks the home route as the mobile list pane", () => {
+            const { container } = getComponent({ page_type: PageTypes.HomePage, currentRoomId: null });
+
+            expect(container.querySelector(".mx_MatrixChat")).toHaveAttribute("data-mobile-pane", "list");
+        });
     });
 
     describe("synced push rules", () => {
