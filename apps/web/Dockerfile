@@ -19,12 +19,20 @@ WORKDIR /src
 
 # Install dependencies
 COPY --parents package.json pnpm-lock.yaml pnpm-workspace.yaml patches scripts **/package.json /src/
+RUN find /src/scripts -type f -name '*.sh' -exec sed -i 's/\r$//' {} +
 RUN pnpm install --frozen-lockfile
 RUN --mount=type=bind,source=.git,target=/src/.git /src/scripts/docker-link-repos.sh
 
 # Build
 COPY --link --exclude=.git --exclude=apps/web/docker . /src
-RUN --mount=type=bind,source=.git,target=/src/.git /src/scripts/docker-package.sh
+RUN find /src/scripts /src/apps/web -type f -name '*.sh' -exec sed -i 's/\r$//' {} +
+RUN pnpm --dir /src/packages/module-api exec vite build \
+  && pnpm --dir /src/packages/shared-components exec vite build \
+  && cd /src/apps/web \
+  && node module_system/scripts/install.ts \
+  && pnpm rethemendex
+RUN --mount=type=bind,source=.git,target=/src/.git \
+  VERSION="$(git rev-parse --short=12 HEAD)" pnpm --dir apps/web exec webpack-cli --mode production
 
 # Copy the config now so that we don't create another layer in the app image
 RUN cp /src/apps/web/config.sample.json /src/apps/web/webapp/config.json
@@ -44,6 +52,7 @@ COPY --from=builder /src/apps/web/webapp /app
 # through `envsubst` by the nginx docker image entry point.
 COPY /apps/web/docker/nginx-templates/* /etc/nginx/templates/
 COPY /apps/web/docker/docker-entrypoint.d/* /docker-entrypoint.d/
+RUN find /docker-entrypoint.d -type f -name '*.sh' -exec sed -i 's/\r$//' {} +
 
 RUN rm -rf /usr/share/nginx/html \
   && ln -s /app /usr/share/nginx/html

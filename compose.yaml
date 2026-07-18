@@ -1,0 +1,14 @@
+services:
+    bbmi-chat:
+        image: bbmi-chat:latest
+        build:
+            context: .
+            dockerfile: apps/web/Dockerfile
+        restart: unless-stopped
+        ports:
+            - "${BBMI_PORT:-8080}:80"
+        volumes:
+            - type: bind
+              source: ${BBMI_CONFIG:-./apps/web/config.sample.json}
+              target: /app/config.json
+              read_only: true
