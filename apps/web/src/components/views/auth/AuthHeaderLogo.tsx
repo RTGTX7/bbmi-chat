@@ -13,11 +13,18 @@ import SdkConfig from "../../../SdkConfig";
 export default class AuthHeaderLogo extends React.PureComponent {
     public render(): React.ReactElement {
         const brandingConfig = SdkConfig.getObject("branding");
-        const logoUrl = brandingConfig?.get("auth_header_logo_url") ?? "themes/element/img/logos/element-logo.svg";
+        const logoUrl = brandingConfig?.get("auth_header_logo_url");
 
         return (
             <aside className="mx_AuthHeaderLogo">
-                <img src={logoUrl} alt="Element" />
+                {logoUrl ? (
+                    <img src={logoUrl} alt="BBMI Chat" />
+                ) : (
+                    <span className="mx_AuthHeaderLogo_mark" aria-hidden="true">
+                        B
+                    </span>
+                )}
+                <span className="mx_AuthHeaderLogo_brand">BBMI Chat</span>
             </aside>
         );
     }
