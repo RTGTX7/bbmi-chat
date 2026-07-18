@@ -62,6 +62,7 @@ import { SettingLevel } from "../../../../../../src/settings/SettingLevel";
 import { ElementCallMemberEventType } from "../../../../../../src/call-types";
 import { SDKContext } from "../../../../../../src/contexts/SDKContext";
 import { SDKContextClass } from "../../../../../../src/contexts/SDKContextClass.ts";
+import { Action } from "../../../../../../src/dispatcher/actions.ts";
 
 jest.mock("../../../../../../src/utils/ShieldUtils");
 jest.mock("../../../../../../src/hooks/right-panel/useCurrentPhase", () => ({
@@ -139,6 +140,16 @@ describe("RoomHeader", () => {
     it("renders the room header", () => {
         const { container } = render(<RoomHeader room={room} />, getWrapper());
         expect(container).toHaveTextContent(ROOM_ID);
+    });
+
+    it("returns to the room list from the mobile back button", async () => {
+        const user = userEvent.setup();
+        const dispatchSpy = jest.spyOn(dispatcher, "dispatch");
+        render(<RoomHeader room={room} />, getWrapper());
+
+        await user.click(screen.getByRole("button", { name: "Back" }));
+
+        expect(dispatchSpy).toHaveBeenCalledWith({ action: Action.ViewHomePage });
     });
 
     it("opens the room summary", async () => {

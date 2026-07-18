@@ -11,6 +11,7 @@
     "disable_custom_urls": false,
     "disable_guests": false,
     "disable_login_language_selector": false,
+    "mobile_guide_toast": false,
     "disable_3pid_login": false,
     "force_verification": false,
     "brand": "BBMI Chat",

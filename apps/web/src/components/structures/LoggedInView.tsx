@@ -65,6 +65,7 @@ import { Landmark, LandmarkNavigation } from "../../accessibility/LandmarkNaviga
 import { ModuleApi } from "../../modules/Api.ts";
 import { SDKContext } from "../../contexts/SDKContext.ts";
 import { ResizerViewModel } from "../../viewmodels/structures/ResizerViewModel.ts";
+import MenuIcon from "@vector-im/compound-design-tokens/assets/web/icons/menu";
 
 // We need to fetch each pinned message individually (if we don't already have it)
 // so each pinned message may trigger a request. Limit the number per room for sanity.
@@ -103,6 +104,7 @@ interface IState {
     useCompactLayout: boolean;
     activeCalls: Array<MatrixCall>;
     backgroundImage?: string;
+    mobileNavigationOpen: boolean;
 }
 
 /**
@@ -125,6 +127,9 @@ class LoggedInView extends React.Component<IProps, IState> {
     protected timezoneProfileUpdateRef?: string[];
 
     private resizerViewModel?: ResizerViewModel;
+    private readonly mobileNavigationButtonRef = React.createRef<HTMLButtonElement>();
+    private readonly mobileNavigationRef = React.createRef<HTMLDivElement>();
+    private mobileSpacePanelExpanded = false;
 
     public static contextType = SDKContext;
     declare public context: React.ContextType<typeof SDKContext>;
@@ -138,6 +143,7 @@ class LoggedInView extends React.Component<IProps, IState> {
             useCompactLayout: SettingsStore.getValue("useCompactLayout"),
             usageLimitDismissed: false,
             activeCalls: context.legacyCallHandler.getAllActiveCalls(),
+            mobileNavigationOpen: false,
         };
 
         // stash the MatrixClient in case we log out before we are unmounted
@@ -305,6 +311,53 @@ class LoggedInView extends React.Component<IProps, IState> {
         this.setState({
             usageLimitDismissed: true,
         });
+    };
+
+    private toggleMobileNavigation = (): void => {
+        this.setState(
+            (state) => ({ mobileNavigationOpen: !state.mobileNavigationOpen }),
+            () => {
+                if (this.state.mobileNavigationOpen) {
+                    if (!this.mobileSpacePanelExpanded) {
+                        dis.fire(Action.ToggleSpacePanel);
+                        this.mobileSpacePanelExpanded = true;
+                    }
+                    this.mobileNavigationRef.current
+                        ?.querySelector<HTMLElement>("button, [href], [tabindex]:not([tabindex='-1'])")
+                        ?.focus();
+                }
+            },
+        );
+    };
+
+    private closeMobileNavigation = (): void => {
+        this.setState({ mobileNavigationOpen: false }, () => this.mobileNavigationButtonRef.current?.focus());
+    };
+
+    private onMobileNavigationKeyDown = (event: React.KeyboardEvent): void => {
+        if (event.key === Key.ESCAPE) {
+            event.preventDefault();
+            this.closeMobileNavigation();
+            return;
+        }
+
+        if (event.key !== Key.TAB || !this.mobileNavigationRef.current) return;
+        const focusable = Array.from(
+            this.mobileNavigationRef.current.querySelectorAll<HTMLElement>(
+                "button:not([disabled]), [href], [tabindex]:not([tabindex='-1'])",
+            ),
+        );
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
     };
 
     private calculateServerLimitToast(syncError: IState["syncErrorData"], usageLimitEventContent?: IUsageLimit): void {
@@ -682,6 +735,22 @@ class LoggedInView extends React.Component<IProps, IState> {
 
         const leftPanel = (
             <div className="mx_LeftPanel_outerWrapper">
+                <header className="mx_BBMIChat_mobileHeader">
+                    <button
+                        type="button"
+                        className="mx_BBMIChat_mobileMenuButton"
+                        aria-label="Open navigation"
+                        aria-expanded={this.state.mobileNavigationOpen}
+                        onClick={this.toggleMobileNavigation}
+                        ref={this.mobileNavigationButtonRef}
+                    >
+                        <MenuIcon />
+                    </button>
+                    <span className="mx_BBMIChat_mobileBrandMark" aria-hidden="true">
+                        B
+                    </span>
+                    <span className="mx_BBMIChat_mobileBrand">BBMI Chat</span>
+                </header>
                 <LeftPanelLiveShareWarning isMinimized={false} />
                 <div className={leftPanelWrapperClasses}>
                     {!moduleRenderer && (
@@ -694,6 +763,28 @@ class LoggedInView extends React.Component<IProps, IState> {
         );
 
         const roomView = <div className="mx_RoomView_wrapper mx_BBMIChat_detailPane">{pageElement}</div>;
+        const spacePanel = (
+            <div
+                className={classNames("mx_BBMIChat_spaceDrawer", {
+                    mx_BBMIChat_spaceDrawer_open: this.state.mobileNavigationOpen,
+                })}
+            >
+                <button
+                    type="button"
+                    className="mx_BBMIChat_spaceDrawerBackdrop"
+                    aria-label="Close navigation"
+                    onClick={this.closeMobileNavigation}
+                />
+                <div
+                    className="mx_BBMIChat_spaceDrawerPanel"
+                    ref={this.mobileNavigationRef}
+                    onKeyDown={this.onMobileNavigationKeyDown}
+                    aria-hidden={!this.state.mobileNavigationOpen}
+                >
+                    <SpacePanel />
+                </div>
+            </div>
+        );
 
         let content: React.ReactNode;
         const resizerViewModel = !moduleRenderer ? this.getResizerViewModel() : undefined;
@@ -702,7 +793,7 @@ class LoggedInView extends React.Component<IProps, IState> {
             // (leftPanel omits it).
             content = (
                 <GroupView vm={resizerViewModel}>
-                    <SpacePanel />
+                    {spacePanel}
                     <LeftResizablePanelView
                         vm={resizerViewModel}
                         className="mx_LeftPanel_panel mx_BBMIChat_listPane"
@@ -722,7 +813,7 @@ class LoggedInView extends React.Component<IProps, IState> {
             // own layout.
             content = (
                 <>
-                    <SpacePanel />
+                    {spacePanel}
                     <div className="mx_BBMIChat_listPane">{leftPanel}</div>
                     {roomView}
                 </>

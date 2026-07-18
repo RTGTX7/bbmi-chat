@@ -20,6 +20,17 @@
     background: var(--cpd-color-bg-canvas-default);
 }
 
+.mx_BBMIChat_mobileHeader,
+.mx_BBMIChat_mobileBack,
+.mx_BBMIChat_spaceDrawerBackdrop {
+    display: none;
+}
+
+.mx_BBMIChat_spaceDrawer,
+.mx_BBMIChat_spaceDrawerPanel {
+    display: contents;
+}
+
 .mx_LeftPanel {
     background: var(--bbmi-surface-soft);
     border-inline-end: 1px solid var(--bbmi-border);
@@ -372,9 +383,115 @@
         min-height: 0;
     }
 
-    .mx_MatrixChat .mx_SpacePanel,
     .mx_MatrixChat .mx_Separator {
         display: none;
+    }
+
+    .mx_BBMIChat_mobileHeader {
+        box-sizing: border-box;
+        display: flex;
+        height: calc(64px + env(safe-area-inset-top));
+        flex: 0 0 auto;
+        align-items: center;
+        gap: 10px;
+        padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
+        border-bottom: 1px solid var(--bbmi-border);
+        background: var(--bbmi-surface);
+    }
+
+    .mx_BBMIChat_mobileMenuButton,
+    .mx_BBMIChat_mobileBack {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        padding: 0;
+        place-items: center;
+        border: 0;
+        border-radius: 12px;
+        background: transparent;
+        color: var(--cpd-color-icon-primary);
+        cursor: pointer;
+    }
+
+    .mx_BBMIChat_mobileMenuButton:hover,
+    .mx_BBMIChat_mobileBack:hover {
+        background: rgb(46 139 87 / 10%);
+    }
+
+    .mx_BBMIChat_mobileMenuButton svg,
+    .mx_BBMIChat_mobileBack svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .mx_BBMIChat_mobileBrandMark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 10px;
+        background: var(--bbmi-green);
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .mx_BBMIChat_mobileBrand {
+        min-width: 0;
+        color: var(--cpd-color-text-primary);
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .mx_BBMIChat_spaceDrawer {
+        position: fixed;
+        z-index: 6000;
+        display: block;
+        visibility: hidden;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .mx_BBMIChat_spaceDrawer_open {
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .mx_BBMIChat_spaceDrawerBackdrop {
+        position: absolute;
+        display: block;
+        inset: 0;
+        border: 0;
+        background: rgb(0 0 0 / 42%);
+        opacity: 0;
+        transition: opacity 180ms ease;
+    }
+
+    .mx_BBMIChat_spaceDrawer_open .mx_BBMIChat_spaceDrawerBackdrop {
+        opacity: 1;
+    }
+
+    .mx_BBMIChat_spaceDrawerPanel {
+        position: absolute;
+        display: block;
+        width: min(78vw, 300px);
+        inset: 0 auto 0 0;
+        padding-top: env(safe-area-inset-top);
+        background: var(--bbmi-surface);
+        box-shadow: 16px 0 40px rgb(0 0 0 / 20%);
+        transform: translateX(-100%);
+        transition: transform 200ms ease;
+    }
+
+    .mx_BBMIChat_spaceDrawer_open .mx_BBMIChat_spaceDrawerPanel {
+        transform: translateX(0);
+    }
+
+    .mx_BBMIChat_spaceDrawerPanel .mx_SpacePanel {
+        display: flex;
+        height: 100%;
+        border: 0;
     }
 
     .mx_BBMIChat_listPane,
@@ -384,6 +501,18 @@
         min-width: 0 !important;
         max-width: none !important;
         height: 100%;
+    }
+
+    .mx_MatrixChat div[data-panel]:has(> .mx_BBMIChat_listPane),
+    .mx_MatrixChat div[data-panel]:has(> .mx_BBMIChat_detailPaneWrapper) {
+        width: 100% !important;
+        max-width: none !important;
+        flex: 1 1 100% !important;
+    }
+
+    .mx_MatrixChat[data-mobile-pane="list"] div[data-panel]:has(> .mx_BBMIChat_detailPaneWrapper),
+    .mx_MatrixChat[data-mobile-pane="detail"] div[data-panel]:has(> .mx_BBMIChat_listPane) {
+        display: none !important;
     }
 
     .mx_MatrixChat[data-mobile-pane="list"] .mx_BBMIChat_detailPaneWrapper,
@@ -415,5 +544,10 @@
     .mx_RoomView_body {
         min-width: 0;
         height: 100%;
+    }
+
+    .mx_RoomHeader > .mx_BBMIChat_mobileBack {
+        display: grid;
+        margin-inline-end: -6px;
     }
 }

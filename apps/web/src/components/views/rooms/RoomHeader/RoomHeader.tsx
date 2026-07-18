@@ -23,6 +23,7 @@ import { type ViewRoomOpts } from "@matrix-org/react-sdk-module-api/lib/lifecycl
 import { Flex, Box, StatusTextView } from "@element-hq/web-shared-components";
 import { CallType } from "matrix-js-sdk/src/webrtc/call";
 import { HistoryIcon, UserProfileSolidIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
+import ChevronLeftIcon from "@vector-im/compound-design-tokens/assets/web/icons/chevron-left";
 
 import { useRoomName } from "../../../../hooks/useRoomName.ts";
 import { RightPanelPhases } from "../../../../stores/right-panel/RightPanelStorePhases.ts";
@@ -57,6 +58,7 @@ import { LocalRoom } from "../../../../models/LocalRoom.ts";
 import { useIsEncrypted } from "../../../../hooks/useIsEncrypted.ts";
 import { useUserStatus } from "../../../../hooks/useUserStatus.ts";
 import { SDKContext } from "../../../../contexts/SDKContext.ts";
+import { Action } from "../../../../dispatcher/actions.ts";
 
 function RoomHeaderButtons({
     room,
@@ -463,6 +465,14 @@ export default function RoomHeader({
     return (
         <CurrentRightPanelPhaseContextProvider roomId={room.roomId}>
             <Flex as="header" align="center" gap="var(--cpd-space-3x)" className="mx_RoomHeader light-panel">
+                <button
+                    type="button"
+                    className="mx_BBMIChat_mobileBack"
+                    aria-label={_t("action|back")}
+                    onClick={() => defaultDispatcher.dispatch({ action: Action.ViewHomePage })}
+                >
+                    <ChevronLeftIcon />
+                </button>
                 <WithPresenceIndicator room={room}>
                     {/* We hide this from the tabIndex list as it is a pointer shortcut and superfluous for a11y */}
                     {/* Disable on-click actions until the room is created */}

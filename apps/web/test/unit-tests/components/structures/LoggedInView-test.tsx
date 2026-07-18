@@ -115,6 +115,17 @@ describe("<LoggedInView />", () => {
 
             expect(container.querySelector(".mx_MatrixChat")).toHaveAttribute("data-mobile-pane", "list");
         });
+
+        it("opens and closes the mobile navigation drawer", async () => {
+            const user = userEvent.setup();
+            const { container, getByRole } = getComponent({ page_type: PageTypes.HomePage, currentRoomId: null });
+
+            await user.click(getByRole("button", { name: "Open navigation" }));
+            expect(container.querySelector(".mx_BBMIChat_spaceDrawer")).toHaveClass("mx_BBMIChat_spaceDrawer_open");
+
+            await user.click(getByRole("button", { name: "Close navigation" }));
+            expect(container.querySelector(".mx_BBMIChat_spaceDrawer")).not.toHaveClass("mx_BBMIChat_spaceDrawer_open");
+        });
     });
 
     describe("synced push rules", () => {
