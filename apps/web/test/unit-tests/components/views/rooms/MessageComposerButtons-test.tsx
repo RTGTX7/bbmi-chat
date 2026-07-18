@@ -101,7 +101,7 @@ describe("MessageComposerButtons", () => {
         });
     });
 
-    it("Renders only some buttons in narrow mode", () => {
+    it("Renders primary messenger actions in narrow mode", () => {
         wrapAndRender(
             <MessageComposerButtons
                 {...mockProps}
@@ -113,10 +113,10 @@ describe("MessageComposerButtons", () => {
             true,
         );
 
-        expect(getButtonLabels()).toEqual(["Emoji", "More options"]);
+        expect(getButtonLabels()).toEqual(["Emoji", "Attachment", "Voice Message", "More options"]);
     });
 
-    it("Renders other buttons in menu (except voice messages) in narrow mode", () => {
+    it("Renders secondary buttons in the narrow mode menu", () => {
         wrapAndRender(
             <MessageComposerButtons
                 {...mockProps}
@@ -128,7 +128,13 @@ describe("MessageComposerButtons", () => {
             true,
         );
 
-        expect(getButtonLabels()).toEqual(["Emoji", "More options", ["Attachment", "Sticker", "Poll", "Location"]]);
+        expect(getButtonLabels()).toEqual([
+            "Emoji",
+            "Attachment",
+            "Voice Message",
+            "More options",
+            ["Sticker", "Poll", "Location"],
+        ]);
     });
 
     describe("polls button", () => {
@@ -144,7 +150,13 @@ describe("MessageComposerButtons", () => {
                 true,
             );
 
-            expect(getButtonLabels()).toEqual(["Emoji", "More options", ["Attachment", "Sticker", "Poll", "Location"]]);
+            expect(getButtonLabels()).toEqual([
+                "Emoji",
+                "Attachment",
+                "Voice Message",
+                "More options",
+                ["Sticker", "Poll", "Location"],
+            ]);
         });
 
         it("should not render when asked not to", () => {
@@ -161,9 +173,10 @@ describe("MessageComposerButtons", () => {
 
             expect(getButtonLabels()).toEqual([
                 "Emoji",
+                "Attachment",
+                "Voice Message",
                 "More options",
                 [
-                    "Attachment",
                     "Sticker",
                     // "Poll", // should be hidden
                     "Location",

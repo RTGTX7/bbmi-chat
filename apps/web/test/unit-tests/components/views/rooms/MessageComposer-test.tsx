@@ -298,8 +298,8 @@ describe("MessageComposer", () => {
                     expect(screen.queryByLabelText("Sticker")).not.toBeInTheDocument();
                 });
 
-                it("should not show the attachment button", () => {
-                    expect(screen.queryByLabelText("Attachment")).not.toBeInTheDocument();
+                it("should keep the attachment button visible", () => {
+                    expect(screen.getByLabelText("Attachment")).toBeInTheDocument();
                 });
 
                 it("should close the sticker picker", () => {
