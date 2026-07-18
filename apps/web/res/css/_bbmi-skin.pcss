@@ -815,3 +815,11 @@
         display: none;
     }
 }
+
+@media (min-width: 768px) {
+    #left-panel {
+        min-width: 280px !important;
+        max-width: 370px !important;
+        flex: 0 1 clamp(280px, 26vw, 370px) !important;
+    }
+}
