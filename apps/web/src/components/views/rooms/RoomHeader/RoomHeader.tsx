@@ -301,7 +301,7 @@ function RoomHeaderButtons({
         roomContext.mainSplitContentType === MainSplitContentType.MaximisedWidget ||
         roomContext.mainSplitContentType === MainSplitContentType.Call;
     return (
-        <>
+        <div className="mx_RoomHeader_actions">
             {extraButtons}
 
             {legacyAdditionalButtons?.map((props) => {
@@ -394,7 +394,7 @@ function RoomHeaderButtons({
                     </FacePile>
                 </Text>
             )}
-        </>
+        </div>
     );
 }
 

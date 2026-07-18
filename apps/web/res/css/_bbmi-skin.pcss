@@ -6,6 +6,8 @@
     --bbmi-surface-soft: #f4f8f5;
     --bbmi-border: rgb(24 79 48 / 12%);
     --bbmi-shadow: 0 8px 28px rgb(16 55 34 / 8%);
+    --bbmi-incoming: #ffffff;
+    --bbmi-outgoing: #2e8b57;
 }
 
 .cpd-theme-dark {
@@ -13,6 +15,8 @@
     --bbmi-surface-soft: #101412;
     --bbmi-border: rgb(151 216 177 / 14%);
     --bbmi-shadow: 0 8px 28px rgb(0 0 0 / 24%);
+    --bbmi-incoming: #222825;
+    --bbmi-outgoing: #277a4b;
 }
 
 .mx_MatrixChat {
@@ -76,6 +80,61 @@
     box-shadow: inset 3px 0 0 var(--bbmi-green);
 }
 
+.mx_RoomListItemView {
+    box-sizing: border-box;
+    min-height: 68px;
+    margin: 2px 10px;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.mx_RoomListItemView:hover {
+    border-color: var(--bbmi-border);
+    background: rgb(46 139 87 / 8%);
+    transform: translateX(2px);
+}
+
+.mx_RoomListItemView[aria-selected="true"] {
+    border-color: rgb(46 139 87 / 16%);
+    background: rgb(46 139 87 / 14%);
+    box-shadow: inset 3px 0 0 var(--bbmi-green);
+}
+
+.mx_RoomListItemView [data-testid="avatar-img"] {
+    --cpd-avatar-size: 46px !important;
+
+    flex: 0 0 46px;
+    font-size: 17px;
+}
+
+.mx_RoomListItemView [data-testid="avatar-img"] img {
+    width: 46px;
+    height: 46px;
+}
+
+.mx_RoomListItemView [data-testid="room-name"] {
+    color: var(--cpd-color-text-primary);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.mx_RoomListPanel button[role="option"]:not(.mx_RoomListItemView) {
+    min-height: 32px;
+    padding-inline: 12px;
+    border: 1px solid var(--bbmi-border);
+    border-radius: 999px;
+    background: var(--bbmi-surface);
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.mx_RoomListPanel button[role="option"]:not(.mx_RoomListItemView):hover,
+.mx_RoomListPanel button[role="option"][aria-selected="true"]:not(.mx_RoomListItemView) {
+    border-color: rgb(46 139 87 / 35%);
+    background: rgb(46 139 87 / 10%);
+}
+
 .mx_RoomView {
     background: var(--bbmi-surface);
 }
@@ -109,6 +168,12 @@
 
 .mx_RoomHeader button:hover {
     transform: translateY(-1px);
+}
+
+.mx_RoomHeader_actions {
+    display: flex;
+    align-items: center;
+    gap: var(--cpd-space-3x);
 }
 
 .mx_RoomView_messagePanel {
@@ -147,6 +212,65 @@
 .mx_EventTile[data-layout="bubble"][data-self="true"] .mx_EventTile_line a,
 .mx_EventTile[data-layout="bubble"][data-self="true"] .mx_EventTile_line .mx_MessageTimestamp {
     color: rgb(255 255 255 / 78%);
+}
+
+.mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent)) {
+    padding-inline: clamp(14px, 4vw, 64px);
+}
+
+.mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent)) .mx_EventTile_line {
+    width: fit-content;
+    max-width: min(72%, 680px);
+    padding: 8px 12px;
+    border: 1px solid var(--bbmi-border);
+    border-radius: 16px 16px 16px 5px;
+    background: var(--bbmi-incoming);
+    box-shadow: 0 2px 10px rgb(16 55 34 / 6%);
+}
+
+.mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
+    .mx_EventTile_line {
+    margin-inline-start: auto;
+    border-color: transparent;
+    border-radius: 16px 16px 5px 16px;
+    background: var(--bbmi-outgoing);
+    color: #fff;
+}
+
+.mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
+    .mx_EventTile_line
+    a,
+.mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
+    .mx_MessageTimestamp {
+    color: rgb(255 255 255 / 76%);
+}
+
+.mx_EventTile:has(.mx_cryptoEvent) {
+    padding-inline: 14px;
+}
+
+.mx_EventTile:has(.mx_cryptoEvent) .mx_EventTile_line {
+    width: min(100%, 600px);
+    max-width: none;
+    margin-inline: auto;
+}
+
+.mx_EventTile:has(.mx_cryptoEvent) .mx_cryptoEvent {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid var(--bbmi-border);
+    border-radius: 12px;
+}
+
+.mx_MessageTimestamp {
+    font-size: 11px;
+    opacity: 0.76;
+}
+
+.mx_EventTile .mx_ReplyTile {
+    border-inline-start: 3px solid var(--bbmi-green);
+    border-radius: 8px;
+    background: rgb(46 139 87 / 8%);
 }
 
 .mx_EventTile .mx_ImageBody_container,
@@ -399,6 +523,38 @@
         background: var(--bbmi-surface);
     }
 
+    .mx_RoomListPanel {
+        overflow: hidden;
+    }
+
+    .mx_RoomListPanel > [role="listbox"] {
+        padding-inline: 4px;
+    }
+
+    .mx_RoomListPanel [role="listbox"]:has(> button[role="option"]:not(.mx_RoomListItemView)) {
+        overflow-x: auto;
+        padding: 2px 12px 8px;
+        scrollbar-width: none;
+    }
+
+    .mx_RoomListPanel [role="listbox"]:has(> button[role="option"]:not(.mx_RoomListItemView))::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mx_RoomListItemView {
+        min-height: 72px;
+        margin-inline: 8px;
+        padding-inline: 10px;
+    }
+
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent)) {
+        padding-inline: 10px;
+    }
+
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent)) .mx_EventTile_line {
+        max-width: 82%;
+    }
+
     .mx_BBMIChat_mobileMenuButton,
     .mx_BBMIChat_mobileBack {
         display: grid;
@@ -549,5 +705,14 @@
     .mx_RoomHeader > .mx_BBMIChat_mobileBack {
         display: grid;
         margin-inline-end: -6px;
+    }
+
+    .mx_RoomHeader_actions {
+        flex: 0 0 auto;
+        gap: 2px;
+    }
+
+    .mx_RoomHeader_actions > :nth-child(n + 3) {
+        display: none;
     }
 }
