@@ -1,5 +1,6 @@
 /build
 /cert.pem
+/config.json
 /dist
 /key.pem
 /lib

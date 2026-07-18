@@ -35,26 +35,77 @@ the Compose build uses the same production compiler.
 
 ## Docker deployment
 
-The Compose service uses Element Web's upstream multi-stage Dockerfile and
-defaults to `apps/web/config.sample.json`.
+GitHub Actions builds `apps/web/Dockerfile` for `linux/amd64` and
+`linux/arm64`, then publishes it to:
+
+```text
+ghcr.io/rtgtx7/bbmi-chat
+```
+
+The NAS never builds source code. Keep only `docker-compose.yml`,
+`config.json`, and an optional `.env` file in the Synology project
+directory. Create `config.json` from `apps/web/config.sample.json` and edit
+the homeserver settings before the first deployment.
+
+```dotenv
+BBMI_IMAGE_TAG=latest
+BBMI_PORT=8080
+BBMI_CONFIG=./config.json
+```
+
+### First GHCR login on Synology
+
+Create a GitHub personal access token with `read:packages` permission. If the
+container package remains private, the token's account must also have access to
+this repository. In an SSH session on the NAS:
 
 ```sh
-docker compose build
+export GHCR_TOKEN="your-token"
+echo "$GHCR_TOKEN" | docker login ghcr.io --username RTGTX7 --password-stdin
+unset GHCR_TOKEN
+```
+
+The credential is stored by Docker for later pulls. Login is unnecessary if the
+GHCR package is changed to public.
+
+### Deploy and update
+
+Run these commands from the directory containing `docker-compose.yml`:
+
+```sh
+docker compose pull
 docker compose up -d
 ```
 
-The application is exposed on port `8080`. Override the port and configuration
-file without changing tracked files:
+The application is exposed on port `8080` by default. The Compose file has no
+`build` section, so the NAS cannot build the project accidentally.
+
+### Roll back
+
+Every published build receives an immutable commit tag such as
+`sha-34b1f65`. Set `BBMI_IMAGE_TAG` in the NAS Compose project or `.env`
+file to the required tag, then run the same two deployment commands:
 
 ```sh
-BBMI_PORT=80 BBMI_CONFIG=/etc/bbmi-chat/config.json docker compose up -d --build
+docker compose pull
+docker compose up -d
 ```
 
-For routine server deployments:
+To return to the current development release, set
+`BBMI_IMAGE_TAG=latest` and repeat those commands.
+
+### Version tags
+
+- `latest`: newest successful build from `develop`.
+- `sha-<commit>`: immutable tag for every workflow build and rollback.
+- `v1.2.3`: exact annotated Git release tag.
+- `1.2.3` and `1.2`: generated aliases for semantic version releases.
+
+Publish a production release from a verified commit:
 
 ```sh
-git pull --ff-only
-docker compose up -d --build
+git tag -a v1.0.0 -m "BBMI Chat v1.0.0"
+git push origin v1.0.0
 ```
 
 Serve BBMI Chat on a different origin from the Matrix homeserver. Review the
