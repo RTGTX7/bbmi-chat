@@ -69,6 +69,37 @@
     background: var(--bbmi-surface);
 }
 
+.mx_RoomHeader {
+    height: 68px;
+    padding-inline: 18px;
+    border-bottom: 1px solid var(--bbmi-border);
+    background: rgb(255 255 255 / 86%);
+    backdrop-filter: blur(18px);
+    transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.cpd-theme-dark .mx_RoomHeader {
+    background: rgb(21 25 23 / 86%);
+}
+
+.mx_RoomHeader:hover {
+    background-color: var(--bbmi-surface);
+    box-shadow: 0 4px 18px rgb(16 55 34 / 5%);
+}
+
+.mx_RoomHeader .mx_BaseAvatar img {
+    border-radius: 12px;
+}
+
+.mx_RoomHeader button {
+    border-radius: 10px;
+    transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.mx_RoomHeader button:hover {
+    transform: translateY(-1px);
+}
+
 .mx_RoomView_messagePanel {
     background: linear-gradient(180deg, var(--bbmi-surface) 0%, var(--bbmi-surface-soft) 100%);
 }
@@ -105,6 +136,25 @@
 .mx_EventTile[data-layout="bubble"][data-self="true"] .mx_EventTile_line a,
 .mx_EventTile[data-layout="bubble"][data-self="true"] .mx_EventTile_line .mx_MessageTimestamp {
     color: rgb(255 255 255 / 78%);
+}
+
+.mx_EventTile .mx_ImageBody_container,
+.mx_EventTile .mx_MVideoBody_container,
+.mx_EventTile .mx_MFileBody {
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.mx_ReactionsRowButton {
+    border: 1px solid var(--bbmi-border);
+    border-radius: 999px;
+    transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
+.mx_ReactionsRowButton:hover {
+    border-color: rgb(46 139 87 / 45%);
+    background: rgb(46 139 87 / 8%);
+    transform: translateY(-1px);
 }
 
 .mx_MessageComposer_wrapper {
@@ -148,6 +198,44 @@
 .mx_SettingsPage .mx_SettingsTab,
 .mx_SettingsTab .mx_SettingsSection {
     border-radius: 14px;
+}
+
+.mx_TabbedView_tabLabel {
+    border-radius: 10px;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.mx_TabbedView_tabLabel:hover,
+.mx_TabbedView_tabLabel_active {
+    background: rgb(46 139 87 / 10%);
+}
+
+.mx_TabbedView_tabLabel_active {
+    box-shadow: inset 3px 0 0 var(--bbmi-green);
+}
+
+.mx_ContextualMenu,
+.mx_Dialog {
+    border: 1px solid var(--bbmi-border);
+    border-radius: 14px;
+    background: var(--bbmi-surface);
+    box-shadow: 0 18px 50px rgb(16 55 34 / 18%);
+    animation: bbmi-surface-in 140ms ease both;
+}
+
+.mx_Dialog button,
+.mx_AccessibleButton_kind_primary {
+    transition: box-shadow 150ms ease, transform 150ms ease;
+}
+
+.mx_Dialog button:hover,
+.mx_AccessibleButton_kind_primary:hover {
+    transform: translateY(-1px);
+}
+
+.mx_AccessibleButton_kind_primary {
+    background-color: var(--bbmi-green);
+    box-shadow: 0 5px 14px rgb(46 139 87 / 22%);
 }
 
 .mx_SettingsTab .mx_SettingsSection {
@@ -210,8 +298,25 @@
     }
 }
 
+@keyframes bbmi-surface-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px) scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .mx_EventTile {
+        animation: none;
+    }
+
+    .mx_ContextualMenu,
+    .mx_Dialog {
         animation: none;
     }
 
@@ -227,6 +332,15 @@
         padding-inline: 10px;
     }
 
+    .mx_RoomHeader {
+        height: 60px;
+        padding-inline: 10px;
+    }
+
+    .mx_RoomHeader_info {
+        padding-right: 4px;
+    }
+
     .mx_MessageComposer_wrapper {
         margin: 8px 10px 10px;
         border-radius: 16px;
@@ -234,5 +348,11 @@
 
     .mx_AuthFooter {
         display: none;
+    }
+
+    .mx_Dialog {
+        max-width: calc(100vw - 20px);
+        max-height: calc(100vh - 20px);
+        border-radius: 12px;
     }
 }
