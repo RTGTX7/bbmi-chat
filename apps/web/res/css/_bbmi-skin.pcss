@@ -569,27 +569,33 @@
 
     .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent)) {
         padding-inline: 10px;
+        margin-bottom: 4px;
     }
 
     .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent)) .mx_EventTile_line {
+        display: flow-root;
         max-width: 82%;
-        padding-bottom: 22px;
     }
 
     .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
         .mx_MessageTimestamp {
-        position: absolute;
-        right: 10px;
-        bottom: 4px;
-        left: auto;
+        position: static;
+        float: inline-end;
         width: auto;
+        margin-block-start: 2px;
+        margin-inline-start: 8px;
         line-height: 16px;
         text-align: end;
     }
 
-    .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
-        .mx_MessageTimestamp {
-        right: 28px;
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
+        .mx_MessageTimestamp_lateIcon {
+        position: static;
+        float: inline-end;
+        width: 12px;
+        height: 12px;
+        margin-block-start: 4px;
+        margin-inline-start: 4px;
     }
 
     .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
@@ -597,6 +603,56 @@
     .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
         > .mx_DisambiguatedProfile {
         display: none;
+    }
+
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info) .mx_ReplyChain {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        margin: 0 0 6px;
+    }
+
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info) .mx_ReplyTile {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        padding: 6px 8px;
+        overflow: hidden;
+    }
+
+    .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info) .mx_ReplyTile {
+        border-inline-start-color: rgb(255 255 255 / 68%);
+        background: rgb(255 255 255 / 12%);
+    }
+
+    .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info) .mx_ReplyTile a,
+    .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info) .mx_ReplyTile .mx_EventTile_content {
+        color: rgb(255 255 255 / 86%);
+    }
+
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info) .mx_EventTile_line:has(.mx_ReplyChain) {
+        min-width: min(240px, 82vw);
+    }
+
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info) .mx_MessageActionBar {
+        position: static;
+        float: none;
+        width: max-content;
+        max-width: 100%;
+        margin: 8px 0 0;
+        transform: none;
+    }
+
+    .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info) .mx_MessageActionBar {
+        margin-inline-start: auto;
+    }
+
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info) .mx_MessageActionBar::before {
+        display: none;
+    }
+
+    .mx_EventTile {
+        animation: none;
     }
 
     .mx_BBMIChat_mobileMenuButton,
