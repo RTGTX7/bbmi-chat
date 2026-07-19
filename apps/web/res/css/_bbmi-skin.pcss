@@ -335,6 +335,13 @@
     border-radius: 14px;
 }
 
+.mx_SettingsDialog_toastContainer {
+    right: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: auto;
+}
+
 .mx_TabbedView_tabLabel {
     border-radius: 10px;
     transition: background-color 150ms ease, color 150ms ease;
@@ -552,6 +559,9 @@
     }
 
     .mx_RoomListItemView {
+        box-sizing: border-box;
+        width: calc(100% - 16px);
+        max-width: calc(100% - 16px);
         min-height: 72px;
         margin-inline: 8px;
         padding-inline: 10px;
@@ -563,6 +573,30 @@
 
     .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent)) .mx_EventTile_line {
         max-width: 82%;
+        padding-bottom: 22px;
+    }
+
+    .mx_EventTile[data-layout="group"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
+        .mx_MessageTimestamp {
+        position: absolute;
+        right: 10px;
+        bottom: 4px;
+        left: auto;
+        width: auto;
+        line-height: 16px;
+        text-align: end;
+    }
+
+    .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
+        .mx_MessageTimestamp {
+        right: 28px;
+    }
+
+    .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
+        > .mx_EventTile_avatar,
+    .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info):not(:has(.mx_cryptoEvent))
+        > .mx_DisambiguatedProfile {
+        display: none;
     }
 
     .mx_BBMIChat_mobileMenuButton,
@@ -892,17 +926,35 @@
         box-shadow: 0 5px 14px rgb(46 139 87 / 28%);
     }
 
+    .mx_MessageComposer_wrapper {
+        padding-inline-start: 34px;
+    }
+
+    .mx_MessageComposer_e2eIconWrapper {
+        top: 50%;
+        left: 12px;
+        margin: 0;
+        transform: translateY(-50%);
+    }
+
+    .mx_MessageComposer_buttonMenu {
+        display: none;
+    }
+
     .mx_UserSettingsDialog,
     .mx_RoomSettingsDialog,
     .mx_SpaceSettingsDialog,
     .mx_SpacePreferencesDialog {
+        position: fixed !important;
+        inset: 0 !important;
         box-sizing: border-box;
-        width: 100vw;
-        max-width: none;
-        height: 100dvh;
-        max-height: none;
+        width: auto !important;
+        max-width: none !important;
+        height: auto !important;
+        max-height: none !important;
         padding: 14px 16px !important;
         overflow: hidden !important;
+        border: 0;
         border-radius: 0;
     }
 
@@ -910,9 +962,11 @@
     .mx_Dialog_wrapper:has(.mx_RoomSettingsDialog) .mx_Dialog_border,
     .mx_Dialog_wrapper:has(.mx_SpaceSettingsDialog) .mx_Dialog_border,
     .mx_Dialog_wrapper:has(.mx_SpacePreferencesDialog) .mx_Dialog_border {
-        width: 100%;
+        position: fixed;
+        inset: 0;
+        width: auto;
         max-width: none;
-        height: 100%;
+        height: auto;
         max-height: none;
     }
 
@@ -958,16 +1012,17 @@
     .mx_SpacePreferencesDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabLabels {
         position: static;
         box-sizing: border-box;
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
         width: 100%;
         max-width: none;
-        height: 54px;
-        flex: 0 0 54px;
+        height: auto;
+        min-height: 54px;
+        flex: 0 0 auto;
         gap: 4px;
         margin: 0;
-        padding: 6px 12px;
-        overflow-x: auto;
-        overflow-y: hidden;
+        padding: 6px 8px;
+        overflow: visible;
         border-bottom: 1px solid var(--bbmi-border);
         background: var(--bbmi-surface);
         scrollbar-width: none;
@@ -986,11 +1041,11 @@
     .mx_SpaceSettingsDialog .mx_TabbedView_tabLabel,
     .mx_SpacePreferencesDialog .mx_TabbedView_tabLabel {
         display: grid;
-        width: 42px;
+        width: 100%;
         min-width: 42px;
         height: 42px;
         min-height: 42px;
-        flex: 0 0 42px;
+        flex: none;
         padding: 0;
         place-items: center;
         border-radius: 10px;
@@ -1080,6 +1135,15 @@
         max-width: 100%;
     }
 
+    .mx_SettingsTab .mx_CopyableText {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        width: 100%;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        word-break: break-all;
+    }
+
     .mx_SettingsTab h1,
     .mx_SettingsTab h2,
     .mx_SettingsTab h3,
@@ -1125,7 +1189,7 @@
 @media (max-width: 380px) {
     .mx_MessageComposer_wrapper {
         margin-inline: 6px;
-        padding-inline: 8px 4px;
+        padding-inline: 34px 4px;
     }
 
     .mx_MessageComposer_button,
