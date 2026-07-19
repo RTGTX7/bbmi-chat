@@ -773,7 +773,13 @@
     }
 
     .mx_RoomView_timeline_rr_enabled .mx_EventTile[data-layout="group"] .mx_EventTile_line {
-        margin-inline-end: 0;
+        margin-inline-end: 0 !important;
+    }
+
+    .mx_RoomView_timeline_rr_enabled
+        .mx_EventTile[data-layout="group"][data-self="true"]:not(.mx_EventTile_info)
+        .mx_EventTile_line {
+        margin-inline: auto 0 !important;
     }
 
     .mx_EventTile .mx_ImageBody,
@@ -895,8 +901,8 @@
         max-width: none;
         height: 100dvh;
         max-height: none;
-        padding: 14px 16px;
-        overflow: hidden;
+        padding: 14px 16px !important;
+        overflow: hidden !important;
         border-radius: 0;
     }
 
@@ -937,12 +943,12 @@
         bottom: 0;
         left: 0;
         display: flex;
-        width: 100%;
+        width: auto !important;
         min-width: 0;
         max-width: 100%;
         margin: 0;
-        padding: 0;
-        overflow: hidden;
+        padding: 0 !important;
+        overflow: hidden !important;
         flex-direction: column;
     }
 
@@ -1009,13 +1015,13 @@
     .mx_SpaceSettingsDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabPanel,
     .mx_SpacePreferencesDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabPanel {
         box-sizing: border-box;
-        width: 100%;
-        min-width: 0;
+        width: 100% !important;
+        min-width: 0 !important;
         max-width: 100%;
         min-height: 0;
         flex: 1 1 auto;
-        margin-left: 0;
-        overflow: hidden;
+        margin-left: 0 !important;
+        overflow: hidden !important;
     }
 
     .mx_UserSettingsDialog .mx_TabbedView_tabPanelContent,
@@ -1024,9 +1030,9 @@
     .mx_SpacePreferencesDialog .mx_TabbedView_tabPanelContent {
         box-sizing: border-box;
         width: 100%;
-        min-width: 0;
+        min-width: 0 !important;
         max-width: 100%;
-        overflow-x: hidden;
+        overflow-x: hidden !important;
     }
 
     .mx_UserSettingsDialog .mx_TabbedView .mx_SettingsTab,
@@ -1034,10 +1040,10 @@
     .mx_SpaceSettingsDialog .mx_TabbedView .mx_SettingsTab,
     .mx_SpacePreferencesDialog .mx_TabbedView .mx_SettingsTab {
         box-sizing: border-box;
-        width: 100%;
-        min-width: 0;
+        width: 100% !important;
+        min-width: 0 !important;
         max-width: 100%;
-        padding: 14px 12px calc(32px + env(safe-area-inset-bottom));
+        padding: 14px 12px calc(32px + env(safe-area-inset-bottom)) !important;
     }
 
     .mx_SettingsTab .mx_SettingsSection,
