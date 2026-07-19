@@ -709,18 +709,140 @@
     .mx_RoomView,
     .mx_RoomView_body {
         min-width: 0;
+        max-width: 100%;
         height: 100%;
     }
 
-    .mx_MessageComposer_row {
+    .mx_RoomView,
+    .mx_RoomView_body,
+    .mx_RoomView_messagePanel,
+    .mx_RoomView_MessageList {
+        overflow-x: clip;
+    }
+
+    .mx_RoomHeader {
+        box-sizing: border-box;
+        width: 100%;
         min-width: 0;
+        max-width: 100%;
+        gap: 6px !important;
+    }
+
+    .mx_RoomHeader_infoWrapper,
+    .mx_RoomHeader_info,
+    .mx_RoomHeader_heading,
+    .mx_RoomHeader_truncated {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .mx_RoomHeader_infoWrapper {
+        flex: 1 1 auto;
+        overflow: hidden;
+    }
+
+    .mx_RoomHeader_heading,
+    .mx_RoomHeader_truncated {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .mx_EventTile,
+    .mx_EventTile_line,
+    .mx_EventTile_reply,
+    .mx_EventTile_content,
+    .mx_EventTile_body,
+    .mx_ReplyTile,
+    .mx_ReactionsRow {
+        box-sizing: border-box;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .mx_EventTile_content,
+    .mx_EventTile_body,
+    .mx_EventTile_content .markdown-body {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .mx_EventTile_content .markdown-body pre {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .mx_RoomView_timeline_rr_enabled .mx_EventTile[data-layout="group"] .mx_EventTile_line {
+        margin-inline-end: 0;
+    }
+
+    .mx_EventTile .mx_ImageBody,
+    .mx_EventTile .mx_ImageBody_container,
+    .mx_EventTile .mx_MVideoBody,
+    .mx_EventTile .mx_MVideoBody_container,
+    .mx_EventTile .mx_MFileBody,
+    .mx_EventTile img,
+    .mx_EventTile video {
+        box-sizing: border-box;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .mx_LegacyCallEvent_wrapper,
+    .mx_CallEvent_wrapper {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .mx_LegacyCallEvent_wrapper .mx_LegacyCallEvent,
+    .mx_LegacyCallEvent_wrapper .mx_LegacyCallEvent.mx_LegacyCallEvent_narrow,
+    .mx_CallEvent {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        padding: 12px 14px;
+    }
+
+    .mx_LegacyCallEvent_info,
+    .mx_LegacyCallEvent_info_basic,
+    .mx_LegacyCallEvent_content,
+    .mx_CallEvent_columns,
+    .mx_CallEvent_details {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .mx_LegacyCallEvent_content {
+        margin-inline-start: 42px;
+    }
+
+    .mx_CallEvent_columns {
+        flex-wrap: wrap;
+    }
+
+    .mx_CallEvent_button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .mx_MessageComposer_row {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
         gap: 4px;
     }
 
     .mx_MessageComposer_input {
+        flex: 1 1 0;
         min-width: 0;
+        max-width: 100%;
         min-height: 46px;
         margin-right: 0;
+        overflow: hidden;
     }
 
     .mx_MessageComposer_input textarea {
@@ -732,6 +854,8 @@
 
     .mx_MessageComposer_actions {
         flex: 0 0 auto;
+        min-width: 0;
+        max-width: 100%;
         gap: 2px;
     }
 
@@ -766,26 +890,202 @@
     .mx_RoomSettingsDialog,
     .mx_SpaceSettingsDialog,
     .mx_SpacePreferencesDialog {
+        box-sizing: border-box;
         width: 100vw;
         max-width: none;
         height: 100dvh;
         max-height: none;
+        padding: 14px 16px;
+        overflow: hidden;
         border-radius: 0;
+    }
+
+    .mx_Dialog_wrapper:has(.mx_UserSettingsDialog) .mx_Dialog_border,
+    .mx_Dialog_wrapper:has(.mx_RoomSettingsDialog) .mx_Dialog_border,
+    .mx_Dialog_wrapper:has(.mx_SpaceSettingsDialog) .mx_Dialog_border,
+    .mx_Dialog_wrapper:has(.mx_SpacePreferencesDialog) .mx_Dialog_border {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        max-height: none;
+    }
+
+    .mx_UserSettingsDialog .mx_Dialog_header,
+    .mx_RoomSettingsDialog .mx_Dialog_header,
+    .mx_SpaceSettingsDialog .mx_Dialog_header,
+    .mx_SpacePreferencesDialog .mx_Dialog_header {
+        box-sizing: border-box;
+        min-height: 42px;
+        margin: 0;
+        padding-inline-end: 44px;
+    }
+
+    .mx_UserSettingsDialog .mx_Dialog_cancelButton,
+    .mx_RoomSettingsDialog .mx_Dialog_cancelButton,
+    .mx_SpaceSettingsDialog .mx_Dialog_cancelButton,
+    .mx_SpacePreferencesDialog .mx_Dialog_cancelButton {
+        top: 14px;
+        right: 16px;
     }
 
     .mx_UserSettingsDialog .mx_TabbedView,
     .mx_RoomSettingsDialog .mx_TabbedView,
     .mx_SpaceSettingsDialog .mx_TabbedView,
     .mx_SpacePreferencesDialog .mx_TabbedView {
-        top: 64px;
+        top: 58px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        flex-direction: column;
+    }
+
+    .mx_UserSettingsDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabLabels,
+    .mx_RoomSettingsDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabLabels,
+    .mx_SpaceSettingsDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabLabels,
+    .mx_SpacePreferencesDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabLabels {
+        position: static;
+        box-sizing: border-box;
+        display: flex;
+        width: 100%;
+        max-width: none;
+        height: 54px;
+        flex: 0 0 54px;
+        gap: 4px;
+        margin: 0;
+        padding: 6px 12px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-bottom: 1px solid var(--bbmi-border);
+        background: var(--bbmi-surface);
+        scrollbar-width: none;
+        overscroll-behavior-inline: contain;
+    }
+
+    .mx_UserSettingsDialog .mx_TabbedView_tabLabels::-webkit-scrollbar,
+    .mx_RoomSettingsDialog .mx_TabbedView_tabLabels::-webkit-scrollbar,
+    .mx_SpaceSettingsDialog .mx_TabbedView_tabLabels::-webkit-scrollbar,
+    .mx_SpacePreferencesDialog .mx_TabbedView_tabLabels::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mx_UserSettingsDialog .mx_TabbedView_tabLabel,
+    .mx_RoomSettingsDialog .mx_TabbedView_tabLabel,
+    .mx_SpaceSettingsDialog .mx_TabbedView_tabLabel,
+    .mx_SpacePreferencesDialog .mx_TabbedView_tabLabel {
+        display: grid;
+        width: 42px;
+        min-width: 42px;
+        height: 42px;
+        min-height: 42px;
+        flex: 0 0 42px;
+        padding: 0;
+        place-items: center;
+        border-radius: 10px;
+    }
+
+    .mx_UserSettingsDialog .mx_TabbedView_tabLabel svg,
+    .mx_RoomSettingsDialog .mx_TabbedView_tabLabel svg,
+    .mx_SpaceSettingsDialog .mx_TabbedView_tabLabel svg,
+    .mx_SpacePreferencesDialog .mx_TabbedView_tabLabel svg {
+        margin: 0;
+    }
+
+    .mx_UserSettingsDialog .mx_TabbedView_tabLabel_active,
+    .mx_RoomSettingsDialog .mx_TabbedView_tabLabel_active,
+    .mx_SpaceSettingsDialog .mx_TabbedView_tabLabel_active,
+    .mx_SpacePreferencesDialog .mx_TabbedView_tabLabel_active {
+        box-shadow: inset 0 -3px 0 var(--bbmi-green);
+    }
+
+    .mx_UserSettingsDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabPanel,
+    .mx_RoomSettingsDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabPanel,
+    .mx_SpaceSettingsDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabPanel,
+    .mx_SpacePreferencesDialog .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabPanel {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        min-height: 0;
+        flex: 1 1 auto;
+        margin-left: 0;
+        overflow: hidden;
+    }
+
+    .mx_UserSettingsDialog .mx_TabbedView_tabPanelContent,
+    .mx_RoomSettingsDialog .mx_TabbedView_tabPanelContent,
+    .mx_SpaceSettingsDialog .mx_TabbedView_tabPanelContent,
+    .mx_SpacePreferencesDialog .mx_TabbedView_tabPanelContent {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        overflow-x: hidden;
     }
 
     .mx_UserSettingsDialog .mx_TabbedView .mx_SettingsTab,
     .mx_RoomSettingsDialog .mx_TabbedView .mx_SettingsTab,
     .mx_SpaceSettingsDialog .mx_TabbedView .mx_SettingsTab,
     .mx_SpacePreferencesDialog .mx_TabbedView .mx_SettingsTab {
+        box-sizing: border-box;
+        width: 100%;
         min-width: 0;
-        padding: 12px 16px calc(32px + env(safe-area-inset-bottom));
+        max-width: 100%;
+        padding: 14px 12px calc(32px + env(safe-area-inset-bottom));
+    }
+
+    .mx_SettingsTab .mx_SettingsSection,
+    .mx_SettingsTab_sections,
+    .mx_SettingsSection_subSections,
+    .mx_UserProfileSettings,
+    .mx_UserProfileSettings_profile,
+    .mx_UserProfileSettings_profile_controls,
+    .mx_UserProfileSettings_profile_nameAndStatus,
+    .mx_UserProfileSettings_profile_displayName {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .mx_SettingsTab .mx_SettingsSection {
+        padding: 16px;
+    }
+
+    .mx_SettingsTab_section .mx_SettingsFlag,
+    .mx_SettingsTab_section > p,
+    .mx_SettingsTab_subsectionText {
+        margin-inline-end: 0;
+    }
+
+    .mx_SettingsTab .mx_Field,
+    .mx_SettingsTab .mx_CopyableText,
+    .mx_SettingsTab input,
+    .mx_SettingsTab select,
+    .mx_SettingsTab textarea {
+        box-sizing: border-box;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .mx_SettingsTab h1,
+    .mx_SettingsTab h2,
+    .mx_SettingsTab h3,
+    .mx_SettingsTab p,
+    .mx_SettingsTab label {
+        overflow-wrap: anywhere;
+    }
+
+    .mx_SettingsTab table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
     }
 
     .mx_RightPanel_ResizeWrapper {
@@ -813,6 +1113,29 @@
 
     .mx_RoomHeader_actions > :nth-child(n + 3) {
         display: none;
+    }
+}
+
+@media (max-width: 380px) {
+    .mx_MessageComposer_wrapper {
+        margin-inline: 6px;
+        padding-inline: 8px 4px;
+    }
+
+    .mx_MessageComposer_button,
+    .mx_MessageComposer_actions button {
+        width: 34px;
+        min-width: 34px;
+        height: 34px;
+        padding: 7px;
+    }
+
+    .mx_RoomHeader {
+        padding-inline: 6px;
+    }
+
+    .mx_RoomHeader_actions {
+        gap: 0;
     }
 }
 
